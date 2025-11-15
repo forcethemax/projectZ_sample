@@ -14,6 +14,17 @@ class FHcAIManager:
 {
 private:
 	TMap<EHcAIContentsType, TSharedPtr<FHcAITaskResolver>> _mapTaskResolver;
+
+
+public:
+	// 초기화(처음 한번만)
+	virtual void Initialize() override;
+	// 해제
+	virtual void Finalize() override;
+	
+private:
+	// ai 데이터 로드
+	void LoadAIData();
 };
 
 #define HcAI() UHcScopeHolder::GetGameManagerFType<FHcAIManager>(UHcScopeGame::EManagerType::AI)

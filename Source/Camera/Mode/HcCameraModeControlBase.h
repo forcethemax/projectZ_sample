@@ -3,6 +3,8 @@
 #include "Camera/Mode/HcCameraModeBase.h"
 #include "Message/HcMessageInput.h"
 
+class FHcCameraZoomGame;
+
 struct FHcSchemaCameraModeData;
 
 enum class EHcCameraChangeZoomType : uint8;
@@ -30,4 +32,10 @@ public:
 public:
 	// 모드 줌 시작
 	virtual void StartModeZoom(EHcCameraChangeZoomType In_type);
+	// 시작 모드 줌 값 얻어오기
+	virtual float GetStartModeZoom();
+	
+	// get, set
+public:
+	TWeakPtr<FHcCameraZoomGame> GetCameraZoomGame();
 };

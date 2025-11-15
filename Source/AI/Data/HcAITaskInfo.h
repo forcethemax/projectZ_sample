@@ -25,7 +25,7 @@ public:
 	TArray<TSharedPtr<FHcAICondition>> _reserveConditions;
 	TArray<TSharedPtr<FHcAICondition>> _actionConditions;
 	TArray<TSharedPtr<FHcAICondition>> _clearConditions;
-	TSharedPtr<FHcAIAction*> _action;
+	TSharedPtr<FHcAIAction> _action;
 	// 구별id
 	int id;
 	
