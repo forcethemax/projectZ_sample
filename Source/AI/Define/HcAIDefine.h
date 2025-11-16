@@ -59,3 +59,10 @@ enum class EHcAIContentsType : uint8
 	Field,				// 일반 필드
 	Auto_off,			// 오토 꺼진 상태
 };
+
+enum class EHcAIDelayType : uint8
+{
+	NONE = 0,
+	MAKE_JOB_DELAY = 1,
+	RETRY_DELAY = 2,
+};

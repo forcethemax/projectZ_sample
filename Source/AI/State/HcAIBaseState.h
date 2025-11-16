@@ -10,7 +10,6 @@ class FHcAIManager;
 class FHcAIBaseState: public THcState<EHcAIActionType>
 {
 protected:
-	TWeakPtr<FHcAIManager> _aiManager;	
 	TWeakPtr<FHcAIStateManager> _aiStateManager;
 public:
 	FHcAIBaseState();
@@ -23,9 +22,8 @@ public:
 	virtual void Update(float In_deltaTime) override{}
 	
 public:
-	void SetManager(TSharedPtr<FHcAIManager> In_aiMng, TSharedPtr<FHcAIStateManager> In_aiStateManager)
+	void SetManager(TSharedPtr<FHcAIStateManager> In_aiStateManager)
 	{
-		_aiManager = In_aiMng;
 		_aiStateManager = In_aiStateManager;
 	}
 };

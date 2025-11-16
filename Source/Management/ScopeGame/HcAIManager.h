@@ -8,13 +8,17 @@
 #include "AI/Define/HcAIDefine.h"
 
 class FHcAITaskResolver;
+class FHcAIStateManager;
 
 class FHcAIManager:
 	public IHcManager
 {
 private:
+	TSharedPtr<FHcAIStateManager> _stateManager;
+	
 	TMap<EHcAIContentsType, TSharedPtr<FHcAITaskResolver>> _mapTaskResolver;
 
+	
 
 public:
 	// 초기화(처음 한번만)

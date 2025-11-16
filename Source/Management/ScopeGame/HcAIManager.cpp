@@ -4,9 +4,14 @@
 
 #include "AI/Data/HcAITaskInfo.h"
 
+#include "AI/HcAIStateManager.h"
+
 // 초기화(처음 한번만)
 void FHcAIManager::Initialize()
 {
+	_stateManager = MakeShareable(new FHcAIStateManager());
+	_stateManager->Initialize();
+	
 	LoadAIData();
 }
 // 해제
@@ -23,6 +28,11 @@ void FHcAIManager::Finalize()
 			}
 		}
 		_mapTaskResolver.Empty();
+	}
+	
+	if (_stateManager.IsValid() == true)
+	{
+		_stateManager = nullptr;
 	}
 }
 

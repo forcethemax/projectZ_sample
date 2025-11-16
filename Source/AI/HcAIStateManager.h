@@ -7,6 +7,7 @@
 enum class EHcAIActionType : uint8;
 
 class FHcAIManager;
+class FHcAIReserveHandler;
 
 class FHcAIStateAllocator : THcSharedObjectMapAllocator<EHcAIActionType, FHcAIBaseState>
 {
@@ -23,6 +24,11 @@ class FHcAIStateManager : public THcStateManager<FHcAIBaseState, FHcAIStateAlloc
 {
 	using Super = THcStateManager<FHcAIBaseState, FHcAIStateAllocator>;
 	
+private:
+	TSharedPtr<FHcAIReserveHandler> _aiReserveHandler;
+	
 public:
-	void Initialize(TSharedPtr<FHcAIManager> In_aiManager);
+	void Initialize();
+	void Finalize();
+	void ProcessReserveJob();
 };
