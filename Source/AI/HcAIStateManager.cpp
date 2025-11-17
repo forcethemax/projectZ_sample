@@ -6,7 +6,10 @@
 #include "AI/Define/HcAIDefine.h"
 
 #include "AI/Reserve/HcAIReserveHandler.h"
+#include "Data/HcAIReserveJob.h"
 #include "Data/HcAITaskInfo.h"
+
+#include "Misc/DateTime.h"
 
 FHcAIBaseState* FHcAIStateAllocator::Alloc(EHcAIActionType In_type)
 {
@@ -74,9 +77,68 @@ void FHcAIStateManager::ProcessReserveJob()
 		{
 			_aiReserveHandler->ClearRetry();
 		}
+		
+		// 예약 데이터 추가됨
+		MakeJobsByEvaluateConditions(false);
+		
+		if (isByRemakeListTimmer == true)
+		{
+			delayType = EHcAIDelayType::NONE;
+		}
+		else
+		{
+			delayType = EHcAIDelayType::MAKE_JOB_DELAY;
+		}
+		_waitStartRemakeListTime = FDateTime::UtcNow().GetTicks();
+		_isWaitRemakeList = true;
+	}
+	else if (_aiReserveHandler->GetIsRetry() == true)
+	{
+		delayType = EHcAIDelayType::RETRY_DELAY;
+	}
+	
+	if (delayType == EHcAIDelayType::NONE)
+	{
+		_aiReserveHandler->ClearRetry();
+		ChangeStateByCurrentReserveJob();
+	}
+	else
+	{
+		// 대기 시간 처리
 	}
 }
-
+void FHcAIStateManager::ChangeStateByCurrentReserveJob()
+{
+	if (_aiReserveHandler.IsValid() == false)
+	{
+		return;
+	}
+	
+	TWeakPtr<FHcAIReserveJob> reserveJob = _aiReserveHandler->GetClearConditionCheckedFirstJob();
+	TSharedPtr<FHcAIReserveJob> sharedReserveJob = reserveJob.Pin();
+	if (sharedReserveJob.IsValid() == false)
+	{
+		return;
+	}
+	
+	bool isPass = true;
+	for (auto& actionCondition : sharedReserveJob->_actionConditions)
+	{
+		TSharedPtr<FHcAICondition> sharedCondition = actionCondition.Pin();
+		if (sharedCondition.IsValid() == false ||
+			sharedCondition->_func == nullptr ||
+			sharedCondition->_func() == false)
+		{
+			isPass = false;
+			break;
+		}
+	}
+	
+	if (isPass == true)
+	{
+		ChangeState(sharedReserveJob->_actionType);
+	}
+}
 bool FHcAIStateManager::MakeJobsByEvaluateConditions(bool In_isHighPriority)
 {
 	TSharedPtr<FHcAITaskResolver> sharedTaskResolver =  _taskResolver.Pin();

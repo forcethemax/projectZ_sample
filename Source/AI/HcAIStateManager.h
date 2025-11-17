@@ -10,6 +10,7 @@ class FHcAIManager;
 class FHcAIReserveHandler;
 class FHcAITaskResolver;
 class FHcAITask;
+class FHcAIReserveJob;
 
 class FHcAIStateAllocator : THcSharedObjectMapAllocator<EHcAIActionType, FHcAIBaseState>
 {
@@ -31,6 +32,9 @@ private:
 	bool _isDirtyRemakeList = false;
 	
 	TWeakPtr<FHcAITaskResolver> _taskResolver;
+	
+	int64 _waitStartRemakeListTime = 0;
+	bool _isWaitRemakeList = false;
 public:
 	void Initialize();
 	void Finalize();
@@ -44,4 +48,8 @@ public:
 	
 	// 상태 초기화
 	void ClearState();
+	
+	void ChangeStateByCurrentReserveJob();
+	
+	
 };
