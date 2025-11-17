@@ -117,6 +117,37 @@ void FHcAIManager::LoadAIData()
 			}
 		}
 	}
+}
+
+// 컨텐츠 타입 변경
+void FHcAIManager::ChangeContentsType(EHcAIContentsType In_type)
+{
+	_currentContentsType = In_type;
+	TSharedPtr<FHcAITaskResolver> findData = _mapTaskResolver.FindRef(In_type);
 	
+	if (_stateManager.IsValid() == true)
+	{
+		_stateManager->ChangeContentsType(findData);
+	}
+}
+
+void FHcAIManager::SetAIOnOff(bool In_isOn)
+{
+	_isAIOn = In_isOn;
 	
+	// 새로운 컨텐츠 타입
+	EHcAIContentsType newContentsType = _currentContentsType;
+	
+	if (true == _isAIOn)
+	{
+		newContentsType = EHcAIContentsType::Field;
+	}
+	else
+	{
+		// 자동 사냥 이펙트 중지 요청
+		StopAutoPlayEnv();
+	}
+	
+	// 컨텐츠 타입 변경
+	ChangeContentsType(newContentsType);
 }

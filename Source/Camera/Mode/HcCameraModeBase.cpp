@@ -41,8 +41,6 @@ void FHcCameraModeBase::Close()
 			}
 
 			iter.Value->Finalize();
-			iter.Value = nullptr;
-			
 		}
 
 		_mapCamWorks.Empty();
