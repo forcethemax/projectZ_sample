@@ -26,10 +26,14 @@ class FHcCameraModeHandler: public THcStateManager<FHcCameraModeBase, FHcCameraM
 
 	// 멤버 변수
 private:
-	AplayDemoZNCharacter* _playDemoZNCharacter;
+	TWeakObjectPtr<AplayDemoZNCharacter> _playDemoZNCharacter;
 
 	// 스폰할 대 초기화 하는 모드 변환인지
 	bool _isSpawnInitModeChange = true;
+	// spot id 위치 사용하는지(한번이라도)
+	bool _isUserSpotIdPos = false;
+	// 로컬 저장 위치
+	FVector _backupLocalPos;
 	// 가상 함수
 public:
 	virtual ~FHcCameraModeHandler() = default;
@@ -40,9 +44,14 @@ public:
 	void Finalize();
 
 	void Initialize(AplayDemoZNCharacter* In_playDemoZNCharacter);
+	
+	void OnCameraDialogStart(bool In_isUserSpotIdPos, bool In_isZoomFirstCameraMove);
 
 	// get,set
 public:
 	// 초기화 모드 타입 구하기
 	EHcCameraInitModeType GetInitModeType();
+	
+	void SetLocalUseSpotIdPos(bool In_isUse);
+	void SetAttachFollowCamera(bool In_isAttach);
 };

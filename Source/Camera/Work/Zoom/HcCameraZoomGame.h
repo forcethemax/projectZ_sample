@@ -15,7 +15,8 @@ protected:
 	// 터치에 의한 줌인지
 	bool _isTouchZoom = false;
 	
-	AplayDemoZNCharacter* _targetCharacter;
+	
+	TWeakObjectPtr<AplayDemoZNCharacter> _targetCharacter;
 	
 public:
 	virtual void Initialize() override{}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Classes/HcState.h"
+#include "playDemoZNCharacter.h"
 
 enum class EHcCameraMode: uint8;
 enum class EHcCameraWorkType: uint8;
@@ -20,7 +21,7 @@ protected:
 	// 카메라 기능들
 	TMap<EHcCameraWorkType, TSharedPtr<IHcCameraWork>> _mapCamWorks; 
 
-	AplayDemoZNCharacter* _targetCharacter;
+	TWeakObjectPtr<AplayDemoZNCharacter> _targetCharacter;
 
 	TWeakPtr<FHcCameraModeHandler> _modeHandler;
 	
@@ -51,10 +52,7 @@ public:
 
 	// get, set
 public:
-	void SetModeTarget(AplayDemoZNCharacter* In_targetChar)
-	{
-		_targetCharacter = In_targetChar;
-	}
+	void SetModeTarget(AplayDemoZNCharacter* In_targetChar);
 
 	// 카메라 회전 처리 접근
 	TWeakPtr<FHcCameraRotationBase> GetCameraRotationBase();

@@ -1,7 +1,5 @@
 #include "HcCameraModeBase.h"
 
-#include "playDemoZNCharacter.h"
-
 #include "Camera/Define/HcCameraGameDefine.h"
 
 #include "Camera/Work/DOF/HcCameraDOFGame.h"
@@ -20,7 +18,10 @@
 FHcCameraModeBase::FHcCameraModeBase() : THcState<EHcCameraMode>(EHcCameraMode::Quarter)
 {
 }
-
+void FHcCameraModeBase::SetModeTarget(AplayDemoZNCharacter* In_targetChar)
+{
+	_targetCharacter = In_targetChar;
+}
 // 처음 한번만 하는 초기화
 void FHcCameraModeBase::Initialize()
 {
