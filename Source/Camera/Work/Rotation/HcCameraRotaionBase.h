@@ -13,4 +13,7 @@ public:
 	virtual void InitMode(){}
 	virtual void Initialize() override{}
 	virtual void Finalize() override{}
+	virtual void Update(float In_deltaTime)override{}
+public:
+	virtual void SetRotation(const FRotator& In_rot){}
 };
